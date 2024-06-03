@@ -8,15 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function alternarModoOscuro() {
         const estaEnModoOscuro = body.classList.toggle('dark-mode')
-        localStorage.setItem('modoOscuro', estaEnModoOscuro ? 'habilitado' : 'deshabilitado')
+        localStorage.setItem('modoOscuro', JSON.stringify(estaEnModoOscuro))
     }
     
     function inicializarModoOscuro() {
         const modoOscuroGuardado = localStorage.getItem('modoOscuro')
-        modoOscuroGuardado === 'habilitado' ? aplicarModoOscuro(true) : aplicarModoOscuro(false)
+        
+        if (modoOscuroGuardado === 'true' || modoOscuroGuardado === 'false') {
+            const estaOscuro = JSON.parse(modoOscuroGuardado);
+            aplicarModoOscuro(estaOscuro)
+        } else {
+            aplicarModoOscuro(false)
+        }
     }
     
     inicializarModoOscuro()
-    
     botonToggle.addEventListener('click', alternarModoOscuro)
-    })
+})
+
